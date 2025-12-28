@@ -23,8 +23,6 @@ INSTALLED_APPS = [
 
     "rest_framework",
 
-    "phonenumber_field",
-
     "courses",
     "users",
 ]
