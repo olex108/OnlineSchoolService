@@ -6,7 +6,7 @@ from config.settings import BASE_DIR
 class Command(BaseCommand):
     help = "Custom command to add payment data"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """
         Method to add payment data
         """

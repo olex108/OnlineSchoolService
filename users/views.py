@@ -1,13 +1,14 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
+from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import User, Payment
-from .serializers import UserRegisterSerializer, UserSerializer, UserRetrieveSerializer, PaymentSerializer
+from .models import Payment, User
+from .serializers import PaymentSerializer, UserRegisterSerializer, UserRetrieveSerializer, UserSerializer
 
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter
+from typing import Any
 
 
 class UserRegisterAPIView(generics.CreateAPIView):
@@ -36,7 +37,7 @@ class UserEmailVerificationAPIView(APIView):
     :return: Response of status of verification
     """
 
-    def get(self, request, token: str) -> Response:
+    def get(self, request: Any, token: str) -> Response:
         try:
             user = User.objects.get(token=token)
             user.is_active = True
@@ -51,5 +52,5 @@ class PaymentListAPIView(ListAPIView):
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ('paid_course', 'paid_lesson', "payment_method")
+    filterset_fields = ("paid_course", "paid_lesson", "payment_method")
     ordering_fields = ("payment_date",)

@@ -4,7 +4,7 @@ import secrets
 from django.core.mail import send_mail
 from rest_framework import serializers
 
-from .models import User, Payment
+from .models import Payment, User
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):

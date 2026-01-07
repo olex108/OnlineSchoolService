@@ -1,16 +1,16 @@
+import json
+
 from django.core.management import BaseCommand, call_command
 
-from users.models import User
-from courses.models import Course, Lesson
-
-import json
 from config.settings import BASE_DIR
+from courses.models import Course, Lesson
+from users.models import User
 
 
 class Command(BaseCommand):
     help = "Loads data from JSON fixtures"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         """
         Method to load data from JSON fixtures
 
