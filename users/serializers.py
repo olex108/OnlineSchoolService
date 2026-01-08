@@ -4,7 +4,7 @@ import secrets
 from django.core.mail import send_mail
 from rest_framework import serializers
 
-from .models import User
+from .models import Payment, User
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -68,7 +68,21 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = "__all__"
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["email", "first_name", "last_name", "phone", "country", "avatar"]
+
+
+class UserRetrieveSerializer(serializers.ModelSerializer):
+    payment_history = PaymentSerializer(source="payment_set.all", many=True)
+
+    class Meta:
+        model = User
+        fields = ["email", "first_name", "last_name", "phone", "country", "avatar", "payment_history"]
