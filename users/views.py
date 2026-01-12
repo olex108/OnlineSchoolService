@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Payment, User
+from .permissions import IsOwner
 from .serializers import PaymentSerializer, UserRegisterSerializer, UserRetrieveSerializer, UserSerializer
 
 
@@ -18,18 +19,25 @@ class UserRegisterAPIView(generics.CreateAPIView):
 
 
 class UserRetrieveAPIView(generics.RetrieveAPIView):
-    serializer_class = UserRetrieveSerializer
     queryset = User.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.user == self.get_object():
+            return UserRetrieveSerializer
+        else:
+            return UserSerializer
 
 
 class UserUpdateAPIView(generics.UpdateAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserRetrieveSerializer
     queryset = User.objects.all()
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class UserDestroyAPIView(generics.DestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class UserEmailVerificationAPIView(APIView):

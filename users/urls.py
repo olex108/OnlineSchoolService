@@ -14,7 +14,7 @@ urlpatterns = [
     path("users/<int:pk>/update/", views.UserUpdateAPIView.as_view(), name="user-update"),
     path("users/<int:pk>/delete/", views.UserDestroyAPIView.as_view(), name="user-delete"),
     # token
-    path("login/", TokenObtainPairView.as_view(permission_classes=AllowAny), name="login"),
+    path("login/", TokenObtainPairView.as_view(permission_classes=[AllowAny]), name="login"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     # payment paths
     path("payment/", views.PaymentListAPIView.as_view(), name="payment-list"),
