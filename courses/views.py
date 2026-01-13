@@ -25,7 +25,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         elif self.action == "list":
             self.permission_classes = [IsAuthenticated]
         elif self.action == "retrieve":
-            self.permission_classes = [IsAuthenticated, IsModer | IsOwner]
+            self.permission_classes = [IsAuthenticated]
         elif self.action == "update":
             self.permission_classes = [IsAuthenticated, IsModer | IsOwner]
         elif self.action == "partial_update":
@@ -52,7 +52,6 @@ class LessonListAPIView(generics.ListAPIView):
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated, IsModer | IsOwner]
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):

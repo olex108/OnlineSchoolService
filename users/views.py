@@ -1,16 +1,21 @@
+from gc import get_objects
+from http.client import responses
 from typing import Any
 
 from django_filters.rest_framework import DjangoFilterBackend
+from pyexpat.errors import messages
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Payment, User
+from .models import Payment, User, Subscription
+from courses.models import Course
 from .permissions import IsOwner
-from .serializers import PaymentSerializer, UserRegisterSerializer, UserRetrieveSerializer, UserSerializer
+from .serializers import (PaymentSerializer, UserRegisterSerializer, UserRetrieveSerializer, UserSerializer,
+                          SubscriptionSerializer)
 
 
 class UserRegisterAPIView(generics.CreateAPIView):
@@ -66,3 +71,38 @@ class PaymentListAPIView(ListAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ("paid_course", "paid_lesson", "payment_method")
     ordering_fields = ("payment_date",)
+
+
+class SubscribeAPIView(APIView):
+    """
+    Class for subscription user for courses.
+    Get post request with data of course id in dict
+
+    {"course_id": course_id: int}
+
+    """
+
+    def post(self, *args, **kwargs) -> Response:
+        """
+        Post request with data of course id in dict
+
+        :return: Response with message of subscription in form {"message": message: str} if course is exist and
+        {"detail": "No Course matches the given query."} course isn`t exist
+        """
+
+        user = self.request.user
+        course_id = self.request.data.get("course_id")
+        course = get_object_or_404(Course, id=course_id)
+        try:
+            subscription = Subscription.objects.get(user=user, course=course)
+            if subscription.subscription:
+                message = "Подписка удалена"
+            else:
+                message = "Подписка добавлена"
+            subscription.subscription = not subscription.subscription
+            subscription.save()
+        except Subscription.DoesNotExist:
+            Subscription.objects.create(user=user, course=course, subscription=True)
+            message = "Подписка добавлена"
+
+        return Response({"message": message})

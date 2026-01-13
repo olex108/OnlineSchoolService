@@ -86,3 +86,7 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["email", "first_name", "last_name", "phone", "country", "avatar", "payment_history"]
+
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    pass
