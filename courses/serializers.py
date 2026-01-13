@@ -17,7 +17,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ["name", "preview", "description", "video_url", "subscription"]
+        fields = ["name", "preview", "description", "video_url"]
         validators = [VideoUrlValidator(field="video_url")]
 
 
