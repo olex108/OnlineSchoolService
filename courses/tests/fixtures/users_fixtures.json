@@ -1,0 +1,92 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_1@test.com",
+        "first_name": "User_1",
+        "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 11,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_2@test.com",
+        "first_name": "User_2",
+        "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 12,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_3@test.com",
+        "first_name": "User_3",
+        "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 13,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_4@test.com",
+        "first_name": "User_4",
+        "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 14,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_5@test.com",
+        "first_name": "User_5",
+        "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 15,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_6@test.com",
+        "first_name": "User_6",
+        "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 16,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_7@test.com",
+        "first_name": "User_7",
+        "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 17,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_8@test.com",
+        "first_name": "User_8",
+        "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 18,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_9@test.com",
+        "first_name": "User_9",
+        "is_active": true
+    }
+  }
+]

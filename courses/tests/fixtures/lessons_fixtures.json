@@ -1,0 +1,427 @@
+[
+  {
+    "model": "courses.lesson",
+    "pk": 1,
+    "fields": {
+      "name": "Введение в Python",
+      "preview": null,
+      "description": "Знакомство с языком Python, установка и настройка среды разработки, основные возможности языка и первые программы.",
+      "course": 1,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 2,
+    "fields": {
+      "name": "Работа с переменными и типами данных",
+      "preview": null,
+      "description": "Изучение переменных, стандартных типов данных, операций и правил преобразования в Python.",
+      "course": 1,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 3,
+    "fields": {
+      "name": "Условные операторы",
+      "preview": null,
+      "description": "Освоение условий if, elif, else для выполнения разных блоков кода в зависимости от условий.",
+      "course": 1,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 4,
+    "fields": {
+      "name": "Циклы и повторения",
+      "preview": null,
+      "description": "Изучение циклов for и while для организации повторяющихся действий в программах.",
+      "course": 1,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 5,
+    "fields": {
+      "name": "Функции и модули",
+      "preview": null,
+      "description": "Создание и использование функций, организация кода с помощью модулей для повторного использования.",
+      "course": 1,
+      "owner": 18
+    }
+  },
+
+  {
+    "model": "courses.lesson",
+    "pk": 6,
+    "fields": {
+      "name": "Основы JavaScript",
+      "preview": null,
+      "description": "Введение в язык JavaScript, синтаксис, типы данных, первые скрипты для взаимодействия с веб-страницами.",
+      "course": 2,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 7,
+    "fields": {
+      "name": "Работа с DOM",
+      "preview": null,
+      "description": "Изучение манипуляций элементами страницы с помощью DOM API, изменение содержимого и стилей элементов.",
+      "course": 2,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 8,
+    "fields": {
+      "name": "Обработка событий",
+      "preview": null,
+      "description": "Работа с событиями пользователя: клики, наведение, отправка форм для создания интерактивных страниц.",
+      "course": 2,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 9,
+    "fields": {
+      "name": "Асинхронное программирование",
+      "preview": null,
+      "description": "Понимание асинхронных операций, промисы и async/await для работы с сетевыми запросами.",
+      "course": 2,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 10,
+    "fields": {
+      "name": "Использование популярных библиотек",
+      "preview": null,
+      "description": "Обзор популярных JS-библиотек и инструментов для удобной разработки веб-приложений.",
+      "course": 2,
+      "owner": 18
+    }
+  },
+
+  {
+    "model": "courses.lesson",
+    "pk": 11,
+    "fields": {
+      "name": "Классы и объекты",
+      "preview": null,
+      "description": "Основы создания классов и объектов в Java, инкапсуляция, конструкторы и методы.",
+      "course": 3,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 12,
+    "fields": {
+      "name": "Наследование и полиморфизм",
+      "preview": null,
+      "description": "Изучение наследования, переопределения методов и концепции полиморфизма в Java.",
+      "course": 3,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 13,
+    "fields": {
+      "name": "Инкапсуляция и интерфейсы",
+      "preview": null,
+      "description": "Работа с инкапсуляцией данных и реализацией интерфейсов для организации архитектуры приложений.",
+      "course": 3,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 14,
+    "fields": {
+      "name": "Обработка исключений",
+      "preview": null,
+      "description": "Изучение методов обработки ошибок и исключений для повышения надежности программ.",
+      "course": 3,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 15,
+    "fields": {
+      "name": "Практика ООП на Java",
+      "preview": null,
+      "description": "Создание простых приложений с использованием принципов ООП, реализация классов и интерфейсов.",
+      "course": 3,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 16,
+    "fields": {
+      "name": "Основы Kotlin и настройка среды",
+      "preview": null,
+      "description": "Обзор языка Kotlin, установка Android Studio и настройка проекта для мобильной разработки.",
+      "course": 4,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 17,
+    "fields": {
+      "name": "Работа с интерфейсами",
+      "preview": null,
+      "description": "Создание визуальных элементов интерфейса, обработка кликов и взаимодействие с пользователем.",
+      "course": 4,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 18,
+    "fields": {
+      "name": "Работа с данными и сохранение",
+      "preview": null,
+      "description": "Обработка данных внутри приложения, использование базы данных и SharedPreferences.",
+      "course": 4,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 19,
+    "fields": {
+      "name": "Обработка сетевых запросов",
+      "preview": null,
+      "description": "Основы взаимодействия с удаленными серверами, использование API и парсинг данных.",
+      "course": 4,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 20,
+    "fields": {
+      "name": "Публикация приложения",
+      "preview": null,
+      "description": "Подготовка и размещение мобильного приложения в Google Play, советы по маркетингу и обновлениям.",
+      "course": 4,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 21,
+    "fields": {
+      "name": "Интерфейс Scratch и создание проекта",
+      "description": "Знакомство с интерфейсом Scratch, создание первого проекта и элементы визуального программирования.",
+      "course": 5,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 22,
+    "fields": {
+      "name": "Базы команд в Scratch",
+      "description": "Обучение основным блокам команд, их использованию для создания анимаций и простых игр.",
+      "course": 5,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 23,
+    "fields": {
+      "name": "Проекты и тестирование",
+      "description": "Создание собственных проектов, проверка работы программы и настройка пользовательского интерфейса.",
+      "course": 5,
+      "preview": null,
+      "owner": 18
+    }
+  },
+
+  {
+    "model": "courses.lesson",
+    "pk": 24,
+    "fields": {
+      "name": "Введение в базы данных",
+      "description": "Обзор понятий баз данных, реляционные модели и структура таблиц, основные понятия SQL.",
+      "course": 6,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 25,
+    "fields": {
+      "name": "Структура SQL-запросов",
+      "description": "Основы написания SELECT, INSERT, UPDATE и DELETE для работы с данными.",
+      "course": 6,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 26,
+    "fields": {
+      "name": "Практика с SQL клиентами",
+      "description": "Работа с реальными базами данных, выполнение запросов и создание простых таблиц.",
+      "course": 6,
+      "preview": null,
+      "owner": 18
+    }
+  },
+
+  {
+    "model": "courses.lesson",
+    "pk": 27,
+    "fields": {
+      "name": "Что такое алгоритмы",
+      "description": "Объяснение понятия алгоритма, его свойства и виды алгоритмических решений.",
+      "course": 7,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 28,
+    "fields": {
+      "name": "Основные структуры данных",
+      "description": "Изучение массивов, списков, стеков и очередей, их применение в алгоритмах.",
+      "course": 7,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 29,
+    "fields": {
+      "name": "Поиск и сортировка",
+      "description": "Обзор алгоритмов поиска и сортировки, их особенности и эффективность.",
+      "course": 7,
+      "preview": null,
+      "owner": 18
+    }
+  },
+
+  {
+    "model": "courses.lesson",
+    "pk": 30,
+    "fields": {
+      "name": "Основы веб-дизайна",
+      "description": "Изучение принципов эстетики, цветовых схем, типографики и компоновки элементов сайта.",
+      "course": 8,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 31,
+    "fields": {
+      "name": "Прототипирование интерфейсов",
+      "description": "Создание макетов и прототипов дизайна, использование специальных инструментов.",
+      "course": 8,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 32,
+    "fields": {
+      "name": "Тестирование UX",
+      "description": "Проверка удобства использования сайта, сбор отзывов и улучшение пользовательского опыта.",
+      "course": 8,
+      "preview": null,
+      "owner": 18
+    }
+  },
+
+  {
+    "model": "courses.lesson",
+    "pk": 33,
+    "fields": {
+      "name": "Введение в DevOps",
+      "description": "Обзор концепций DevOps, автоматизация процессов разработки и деплоя приложений.",
+      "course": 9,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 34,
+    "fields": {
+      "name": "Инструменты CI/CD",
+      "description": "Работа с системами непрерывной интеграции и доставки: Jenkins, GitLab CI и другие.",
+      "course": 9,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 35,
+    "fields": {
+      "name": "Образы Docker и оркестрация",
+      "description": "Создание контейнеров с Docker, автоматизация и управление контейнеризированными приложениями.",
+      "course": 9,
+      "preview": null,
+      "owner": 18
+    }
+  },
+
+  {
+    "model": "courses.lesson",
+    "pk": 36,
+    "fields": {
+      "name": "Введение в машинное обучение",
+      "description": "Обзор основных понятий, типов алгоритмов и задач машинного обучения.",
+      "course": 10,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 37,
+    "fields": {
+      "name": "Обработка данных и подготовка",
+      "description": "Подготовка данных для обучения моделей, очистка и преобразование данных.",
+      "course": 10,
+      "preview": null,
+      "owner": 18
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 38,
+    "fields": {
+      "name": "Обучение и оценка моделей",
+      "description": "Обучение моделей, настройка гиперпараметров и оценка качества предсказаний.",
+      "course": 10,
+      "preview": null,
+      "owner": 18
+    }
+  }
+]
