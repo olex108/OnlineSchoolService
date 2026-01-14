@@ -11,6 +11,6 @@ class Command(BaseCommand):
         Method to add payment data
         """
 
-        call_command("loaddata", str(BASE_DIR / "fixtures" / "payment_fixtures.json"))
+        call_command("loaddata", str(BASE_DIR / "data_fixtures" / "payment_fixtures.json"))
 
         self.stdout.write(self.style.SUCCESS("Successfully loaded data from fixture"))

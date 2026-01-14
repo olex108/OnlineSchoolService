@@ -1,13 +1,12 @@
 from rest_framework import generics, viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from users.permissions import IsModer, IsOwner
-from rest_framework.permissions import IsAuthenticated
 
 from .models import Course, Lesson
-from .serializers import CourseRetrieveSerializer, CourseSerializer, LessonSerializer
-
 from .paginators import CustomCoursesPaginator
+from .serializers import CourseRetrieveSerializer, CourseSerializer, LessonSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -51,7 +50,6 @@ class LessonCreateAPIView(generics.CreateAPIView):
 class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsAuthenticated]
     pagination_class = CustomCoursesPaginator
 
 

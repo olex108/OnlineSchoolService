@@ -1,8 +1,13 @@
 from rest_framework.serializers import ValidationError
 
-
-VALID_LINKS = ("https://www.youtube.com/", "https://www.youtu.be/", "https://youtube.com/", "https://youtu.be/",
-               "youtube.com/", "youtu.be/")
+VALID_LINKS = (
+    "https://www.youtube.com/",
+    "https://www.youtu.be/",
+    "https://youtube.com/",
+    "https://youtu.be/",
+    "youtube.com/",
+    "youtu.be/",
+)
 
 
 class VideoUrlValidator:
@@ -13,5 +18,6 @@ class VideoUrlValidator:
 
         url = value.get(self.field)
 
-        if not url.startswith(VALID_LINKS):
-            raise ValidationError("Ссылка должна быть на сайт https://www.youtube.com/...")
+        if url and url != "":
+            if not url.startswith(VALID_LINKS):
+                raise ValidationError("Ссылка должна быть на сайт https://www.youtube.com/...")

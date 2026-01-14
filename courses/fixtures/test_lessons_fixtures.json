@@ -1,0 +1,26 @@
+[
+  {
+    "model": "courses.lesson",
+    "pk": 1,
+    "fields": {
+      "name": "Test_1",
+      "preview": null,
+      "description": "Test_1",
+      "video_url": "",
+      "course": 1,
+      "owner": 1
+    }
+  },
+  {
+    "model": "courses.lesson",
+    "pk": 2,
+    "fields": {
+      "name": "Test_2",
+      "preview": null,
+      "description": "Test_2",
+      "video_url": "",
+      "course": 1,
+      "owner": 1
+    }
+  }
+]

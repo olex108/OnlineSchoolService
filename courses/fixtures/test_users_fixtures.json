@@ -1,0 +1,32 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_owner@test.com",
+        "first_name": "User_1",
+        "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user_moderator@test.com",
+        "first_name": "User_2",
+        "is_active": true
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+        "password": "1234qwer",
+        "email": "user@test.com",
+        "first_name": "User_3",
+        "is_active": true
+    }
+  }
+]
