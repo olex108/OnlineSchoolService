@@ -5,6 +5,8 @@ from . import views
 from .apps import UsersConfig
 from rest_framework.permissions import AllowAny
 
+from .views import SubscribeAPIView
+
 app_name = UsersConfig.name
 
 urlpatterns = [
@@ -18,4 +20,6 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     # payment paths
     path("payment/", views.PaymentListAPIView.as_view(), name="payment-list"),
+    # subscribe
+    path("subscribe/", SubscribeAPIView.as_view(), name="subscribe"),
 ]
