@@ -12,15 +12,18 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from stripe import PaymentMethod
 
-from .models import Payment, User, Subscription
+from config.settings import STRIPE_API_KEY
+from .models import Payment, User, Subscription, Transfer
 from courses.models import Course
 from .permissions import IsOwner, IsModer
 from .serializers import (PaymentSerializer, UserRegisterSerializer, UserRetrieveSerializer, UserSerializer,
                           SubscriptionSerializer)
 
 from drf_yasg.utils import swagger_auto_schema
-
+from .src.payment import PaymentServices
+from .src.transfer_api_service import StripeAPIService
 
 
 class UserRegisterAPIView(generics.CreateAPIView):
@@ -103,6 +106,46 @@ class PaymentListAPIView(ListAPIView):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ("paid_course", "paid_lesson", "payment_method")
     ordering_fields = ("payment_date",)
+
+
+class PaymentRetrieveAPIView(generics.RetrieveAPIView):
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [IsModer | IsOwner]
+
+    def get_object(self):
+        """
+        Call method update_status of payment model for object
+        """
+
+        obj = super().get_object()
+        obj.update_status()
+        return obj
+
+
+class PaymentCreateAPIView(generics.CreateAPIView):
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+
+    def perform_create(self, serializer) -> None:
+        """
+        Method for creating a new payment
+        Call method PaymentServices.save_payment_obj for creating a new payment
+        If payment method of payment "TRANSFER" create Transfer object
+        """
+
+        saved_payment_obj, product_name = PaymentServices.save_payment_obj(serializer, user=self.request.user)
+
+        if saved_payment_obj.payment_method == "TRANSFER":
+            transfer_service = StripeAPIService(api_key=STRIPE_API_KEY)
+            transfer_data = transfer_service.create_transfer_and_return_data(product_name=product_name, amount=saved_payment_obj.amount)
+            Transfer.objects.create(
+                payment=Payment.objects.get(id=saved_payment_obj.id),
+                link= transfer_data.get("link"),
+                session_id=transfer_data.get("session_id"),
+                price_id=transfer_data.get("price_id"),
+                product_id=transfer_data.get("product_id"),
+            )
 
 
 @method_decorator(

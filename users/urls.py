@@ -20,6 +20,8 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
     # payment paths
     path("payment/", views.PaymentListAPIView.as_view(), name="payment-list"),
+    path("payment/create/", views.PaymentCreateAPIView.as_view(), name="payment-create"),
+    path("payment/<int:pk>/", views.PaymentRetrieveAPIView.as_view(), name="payment-detail"),
     # subscribe
     path("subscribe/<int:pk>/", SubscribeAPIView.as_view(), name="subscribe"),
 ]

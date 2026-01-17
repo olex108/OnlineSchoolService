@@ -1,10 +1,16 @@
 import os
 import secrets
+from datetime import timezone, datetime
 
 from django.core.mail import send_mail
 from rest_framework import serializers
 
-from .models import Payment, User
+from courses.models import Course, Lesson
+from .models import Payment, User, Transfer
+from .src.transfer_api_service import StripeAPIService
+
+from config.settings import STRIPE_API_KEY
+from .src.payment import PaymentServices
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -68,10 +74,19 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class TransferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transfer
+        fields = "__all__"
+
+
 class PaymentSerializer(serializers.ModelSerializer):
+    transfer = TransferSerializer(source="transfer_set.first", read_only=True)
+
     class Meta:
         model = Payment
         fields = "__all__"
+        read_only_fields = ["id", "user", "created_date", "payment_date", "amount", "payment_status"]
 
 
 class UserSerializer(serializers.ModelSerializer):
