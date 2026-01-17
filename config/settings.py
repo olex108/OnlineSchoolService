@@ -21,11 +21,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
+    # docs
+    "drf_yasg",
+    # libraries
     "rest_framework",
-    'rest_framework_simplejwt',
-    'django_filters',
-
+    "rest_framework_simplejwt",
+    "django_filters",
+    # apps
     "courses",
     "users",
 ]
@@ -129,3 +131,6 @@ EMAIL_HOST_USER = os.getenv("EMAIL_ADDRESS")
 EMAIL_HOST_PASSWORD = os.getenv("APP_EMAIL_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+# Secret data
+STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")

@@ -40,6 +40,10 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
+    """
+    Create a new lesson. For authenticated users
+    """
+
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, ~IsModer]
 
@@ -48,23 +52,39 @@ class LessonCreateAPIView(generics.CreateAPIView):
 
 
 class LessonListAPIView(generics.ListAPIView):
+    """
+    Get List of lessons by page param.  For authenticated users
+    """
+
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     pagination_class = CustomCoursesPaginator
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
+    """
+    Get Lesson by lesson id.  For authenticated users
+    """
+
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):
+    """
+    Update Lesson by lesson id.  For lesson owner or moderator users
+    """
+
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsModer | IsOwner]
 
 
 class LessonDestroyAPIView(generics.DestroyAPIView):
+    """
+    Delete Lesson by lesson id.  For owner user
+    """
+
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsOwner]

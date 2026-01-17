@@ -7,6 +7,7 @@ class Course(models.Model):
     description = models.TextField(verbose_name="Описание", null=True)
     video_url = models.URLField(verbose_name="Ссылка на материалы", null=True, blank=True)
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE, verbose_name="Владелец курса")
+    price = models.DecimalField(decimal_places=2, verbose_name="Стоимость", null=True, blank=True, max_digits=10)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -24,6 +25,7 @@ class Lesson(models.Model):
     video_url = models.URLField(verbose_name="Ссылка на материалы", null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name="Курс")
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE, verbose_name="Владелец урока")
+    price = models.DecimalField(decimal_places=2, verbose_name="Стоимость", null=True, blank=True, max_digits=10)
 
     def __str__(self) -> str:
         return f"{self.name}"

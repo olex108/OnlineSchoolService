@@ -4,11 +4,13 @@
     "pk": 1,
     "fields": {
       "user": 10,
+      "created_date": "2024-04-25T10:30:00",
       "payment_date": "2024-04-25T10:30:00",
       "paid_course": 5,
       "paid_lesson": null,
       "amount": 49.99,
-      "payment_method": "CASH"
+      "payment_method": "CASH",
+      "payment_status": "PAID"
     }
   },
   {
@@ -16,11 +18,13 @@
     "pk": 2,
     "fields": {
       "user": 11,
+      "created_date": "2024-04-25T10:30:00",
       "payment_date": "2024-04-24T14:45:00",
       "paid_course": 6,
       "paid_lesson": null,
       "amount": 79.99,
-      "payment_method": "TRANSFER"
+      "payment_method": "TRANSFER",
+      "payment_status": "PAID"
     }
   },
   {
@@ -28,11 +32,13 @@
     "pk": 3,
     "fields": {
       "user": 12,
+      "created_date": "2024-04-25T10:30:00",
       "payment_date": "2024-04-23T09:15:00",
       "paid_course": 7,
       "paid_lesson": null,
       "amount": 59.99,
-      "payment_method": "CASH"
+      "payment_method": "CASH",
+      "payment_status": "PAID"
     }
   },
   {
@@ -40,11 +46,13 @@
     "pk": 4,
     "fields": {
       "user": 13,
+      "created_date": "2024-04-25T10:30:00",
       "payment_date": "2024-04-22T16:00:00",
       "paid_course": 8,
       "paid_lesson": null,
       "amount": 99.99,
-      "payment_method": "TRANSFER"
+      "payment_method": "TRANSFER",
+      "payment_status": "PAID"
     }
   },
   {
@@ -52,11 +60,13 @@
     "pk": 5,
     "fields": {
       "user": 14,
+      "created_date": "2024-04-25T10:30:00",
       "payment_date": "2024-04-21T11:20:00",
       "paid_course": 9,
       "paid_lesson": null,
       "amount": 39.99,
-      "payment_method": "CASH"
+      "payment_method": "CASH",
+      "payment_status": "PAID"
     }
   },
   {
@@ -64,11 +74,13 @@
     "pk": 6,
     "fields": {
       "user": 15,
+      "created_date": "2024-04-25T10:30:00",
       "payment_date": "2024-04-20T13:10:00",
       "paid_course": null,
       "paid_lesson": 22,
       "amount": 15.00,
-      "payment_method": "CASH"
+      "payment_method": "CASH",
+      "payment_status": "PAID"
     }
   },
   {
@@ -76,11 +88,13 @@
     "pk": 7,
     "fields": {
       "user": 16,
+      "created_date": "2024-04-25T10:30:00",
       "payment_date": "2024-04-19T17:25:00",
       "paid_course": null,
       "paid_lesson": 27,
       "amount": 20.00,
-      "payment_method": "TRANSFER"
+      "payment_method": "TRANSFER",
+      "payment_status": "PAID"
     }
   },
   {
@@ -88,11 +102,13 @@
     "pk": 8,
     "fields": {
       "user": 17,
+      "created_date": "2024-04-25T10:30:00",
       "payment_date": "2024-04-18T12:05:00",
       "paid_course": null,
       "paid_lesson": 30,
       "amount": 10.00,
-      "payment_method": "CASH"
+      "payment_method": "CASH",
+      "payment_status": "PAID"
     }
   }
 ]

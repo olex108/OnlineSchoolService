@@ -1,7 +1,9 @@
 from gc import get_objects
 from http.client import responses
 from typing import Any
+from drf_yasg import openapi
 
+from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
 from pyexpat.errors import messages
 from rest_framework import generics
@@ -10,20 +12,36 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from stripe import PaymentMethod
 
-from .models import Payment, User, Subscription
+from config.settings import STRIPE_API_KEY
+from .models import Payment, User, Subscription, Transfer
 from courses.models import Course
-from .permissions import IsOwner
+from .permissions import IsOwner, IsModer
 from .serializers import (PaymentSerializer, UserRegisterSerializer, UserRetrieveSerializer, UserSerializer,
                           SubscriptionSerializer)
 
+from drf_yasg.utils import swagger_auto_schema
+from .src.payment import PaymentServices
+from .src.transfer_api_service import StripeAPIService
+
 
 class UserRegisterAPIView(generics.CreateAPIView):
+    """
+    Register new user. For any user
+    """
+
     serializer_class = UserRegisterSerializer
     permission_classes = [AllowAny]
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(responses={200: UserRetrieveSerializer()}))
 class UserRetrieveAPIView(generics.RetrieveAPIView):
+    """
+    Get user by id. With fields "email", "first_name", "phone", "country", "avatar" for any authenticated user
+    and extra "last_name", "payment_history" for owner user
+    """
+
     queryset = User.objects.all()
 
     def get_serializer_class(self):
@@ -45,11 +63,21 @@ class UserDestroyAPIView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated, IsOwner]
 
 
+@method_decorator(
+    name='get',
+    decorator=swagger_auto_schema(responses={200: openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'status': openapi.Schema(type=openapi.TYPE_STRING, example="success"),
+                'message': openapi.Schema(type=openapi.TYPE_STRING, example="Верификация по email прошла успешно"),
+            }
+        )})
+)
 class UserEmailVerificationAPIView(APIView):
     """
     Class for verification of user email
 
-    :return: Response of status of verification
+    return: Response of status of verification
     """
 
     permission_classes = [AllowAny]
@@ -66,13 +94,69 @@ class UserEmailVerificationAPIView(APIView):
 
 
 class PaymentListAPIView(ListAPIView):
+    """
+    Get payments list with filters fields "paid_course", "paid_lesson", "payment_method",
+    and ordering field "payment_date".
+    For moderators users
+    """
+
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()
+    permission_classes = [IsAuthenticated, IsModer]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ("paid_course", "paid_lesson", "payment_method")
     ordering_fields = ("payment_date",)
 
 
+class PaymentRetrieveAPIView(generics.RetrieveAPIView):
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [IsModer | IsOwner]
+
+    def get_object(self):
+        """
+        Call method update_status of payment model for object
+        """
+
+        obj = super().get_object()
+        obj.update_status()
+        return obj
+
+
+class PaymentCreateAPIView(generics.CreateAPIView):
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+
+    def perform_create(self, serializer) -> None:
+        """
+        Method for creating a new payment
+        Call method PaymentServices.save_payment_obj for creating a new payment
+        If payment method of payment "TRANSFER" create Transfer object
+        """
+
+        saved_payment_obj, product_name = PaymentServices.save_payment_obj(serializer, user=self.request.user)
+
+        if saved_payment_obj.payment_method == "TRANSFER":
+            transfer_service = StripeAPIService(api_key=STRIPE_API_KEY)
+            transfer_data = transfer_service.create_transfer_and_return_data(product_name=product_name, amount=saved_payment_obj.amount)
+            Transfer.objects.create(
+                payment=Payment.objects.get(id=saved_payment_obj.id),
+                link= transfer_data.get("link"),
+                session_id=transfer_data.get("session_id"),
+                price_id=transfer_data.get("price_id"),
+                product_id=transfer_data.get("product_id"),
+            )
+
+
+@method_decorator(
+    name='get',
+    decorator=swagger_auto_schema(responses={200: openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'message': openapi.Schema(type=openapi.TYPE_STRING, example="Подписка добавлена"),
+            }
+        )})
+)
 class SubscribeAPIView(APIView):
     """
     Class for subscription user for courses.
@@ -82,16 +166,15 @@ class SubscribeAPIView(APIView):
 
     """
 
-    def post(self, *args, **kwargs) -> Response:
+    def get(self, request: Any, pk: int) -> Response:
         """
-        Post request with data of course id in dict
-
-        :return: Response with message of subscription in form {"message": message: str} if course is exist and
-        {"detail": "No Course matches the given query."} course isn`t exist
+        Post request with data of course id in dict {"course_id": course_id: int}.
+        return: Response with message of subscription in form {"message": message: str} if course is exist
+        or {"detail": "No Course matches the given query."} course isn`t exist
         """
 
         user = self.request.user
-        course_id = self.request.data.get("course_id")
+        course_id = pk
         course = get_object_or_404(Course, id=course_id)
         try:
             subscription = Subscription.objects.get(user=user, course=course)

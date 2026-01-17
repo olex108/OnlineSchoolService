@@ -43,6 +43,17 @@ class Command(BaseCommand):
             new_user.set_password(user["fields"]["password"])
             new_user.save()
 
+        User.objects.get(pk=1).delete()
+        super_user = User.objects.create(
+            id=1,
+            email="admin@test.com",
+            is_active=True,
+            is_superuser=True,
+            is_staff=True,
+        )
+        super_user.set_password("1234qwer")
+        super_user.save()
+
         # Delete and add objects Courses, Lesson, Payment
         Course.objects.all().delete()
         Lesson.objects.all().delete()

@@ -40,13 +40,12 @@ class SubscriptionTest(APITestCase):
 
         # Test of post SubscribeAPIView
         subscription_view = SubscribeAPIView.as_view()
-        subscription_request = self.factory.post(
-            path=reverse("users:subscribe"),
-            data={"course_id": self.course.id},
-            format="json",
+        subscription_request = self.factory.get(
+            path=reverse("users:subscribe", kwargs={"pk": self.course.id}),
         )
+
         force_authenticate(subscription_request, user=self.user_1)
-        subscription_response = subscription_view(subscription_request)
+        subscription_response = subscription_view(subscription_request, pk=self.course.id)
 
         self.assertEqual(subscription_response.status_code, status.HTTP_200_OK)
         self.assertEqual(subscription_response.data["message"], "Подписка удалена")
