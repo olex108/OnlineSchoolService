@@ -1,3 +1,4 @@
+import logging
 import os
 import secrets
 
@@ -6,6 +7,8 @@ from rest_framework import serializers
 
 from .models import Payment, Transfer, User
 from .validators import PaymentValidator
+
+logger = logging.getLogger("users")
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -33,6 +36,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         """
 
         if validated_data["password1"] != validated_data["password2"]:
+            logger.warning("Passwords don't match")
             raise serializers.ValidationError("Пароль должен совпадать")
 
         user = User.objects.create(
@@ -62,9 +66,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
                     from_email=os.getenv("EMAIL_ADDRESS"),
                     recipient_list=[user.email],
                 )
+                logger.info(f"Sending email for verification Email: {user.email}")
 
             except Exception as e:
-                print(e)
+                logger.error(f"Sending email for verification Error: {e}")
 
         return user
 

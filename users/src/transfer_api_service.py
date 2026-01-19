@@ -7,16 +7,18 @@ from config.settings import BASE_URL
 
 
 class TransferAPIService(ABC):
+    """Base API service for work with transfer services"""
+
     @abstractmethod
-    def create_product(self, **kwargs):
+    def create_product(self, **kwargs) -> dict:
         pass
 
     @abstractmethod
-    def create_price(self, **kwargs):
+    def create_price(self, **kwargs) -> dict:
         pass
 
     @abstractmethod
-    def create_session(self, **kwargs):
+    def create_session(self, **kwargs) -> dict:
         pass
 
 
@@ -73,7 +75,7 @@ class StripeAPIService(TransferAPIService):
             product=product,
         )
 
-    def create_session(self, price: str):
+    def create_session(self, price: str) -> dict:
         stripe.api_key = self.api_key
         return stripe.checkout.Session.create(
             success_url=BASE_URL,

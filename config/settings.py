@@ -1,6 +1,8 @@
 from datetime import timedelta
 from pathlib import Path
 import os
+from .loggin_formatters import CustomJsonFormatter
+
 from dotenv import load_dotenv
 
 
@@ -42,6 +44,53 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "main_formater": {
+            "format": "{asctime} - {levelname} - {module} - {message}",
+            "style": "{",
+        },
+        "json_formater": {
+            "()": CustomJsonFormatter,
+        },
+        "file_formater": {
+            "format": "{asctime} - {levelname} - {pathname} - {message}",
+            "style": "{"
+        },
+    },
+    "handlers": {
+        "console": {
+            # "level": "WARNING",
+            "class": "logging.StreamHandler",
+            "formatter": "main_formater",
+        },
+        "json_file": {
+            "class": "logging.FileHandler",
+            "formatter": "json_formater",
+            "filename": BASE_DIR / "log" / "main.json",
+        },
+        "log_file": {
+            "class": "logging.FileHandler",
+            "formatter": "file_formater",
+            "filename": BASE_DIR / "log" / "main.log",
+        }
+    },
+    "loggers": {
+        "users": {
+            "handlers": ["console", "json_file", "log_file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "payment": {
+            "handlers": ["console", "json_file", "log_file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
+
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
@@ -61,7 +110,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-
 # Database
 DATABASES = {
     "default": {
@@ -73,7 +121,6 @@ DATABASES = {
         "PORT": os.getenv("PORT"),
     }
 }
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

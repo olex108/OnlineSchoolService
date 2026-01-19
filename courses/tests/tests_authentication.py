@@ -11,7 +11,7 @@ class AuthenticationTest(APITestCase):
         self.factory = APIRequestFactory()
         self.user = User.objects.create(email="test_user@test.com", password="test_PASSWORD", is_active=True)
 
-    def test_without_authentication(self):
+    def test_without_authentication(self) -> None:
 
         view = LessonListAPIView.as_view()
         request = self.factory.get("/lessons/")

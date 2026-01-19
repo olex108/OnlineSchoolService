@@ -1,5 +1,6 @@
 from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import serializers
 
 from users.permissions import IsModer, IsOwner
 
@@ -13,16 +14,16 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     pagination_class = CustomCoursesPaginator
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer: CourseSerializer) -> None:
         serializer.save(owner=self.request.user)
 
-    def get_serializer_class(self):
+    def get_serializer_class(self) -> serializers:
         if self.action == "retrieve":
             return CourseRetrieveSerializer
         else:
             return CourseSerializer
 
-    def get_permissions(self):
+    def get_permissions(self) -> list:
         if self.action == "create":
             self.permission_classes = [IsAuthenticated, ~IsModer]
         elif self.action == "list":
@@ -46,7 +47,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
     permission_classes = [IsAuthenticated, ~IsModer]
 
-    def perform_create(self, serializer):
+    def perform_create(self, serializer: LessonSerializer) -> None:
         serializer.save(owner=self.request.user)
 
 

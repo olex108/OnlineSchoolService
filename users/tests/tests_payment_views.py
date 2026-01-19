@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from rest_framework import status
 from rest_framework.exceptions import ErrorDetail
@@ -11,7 +11,7 @@ from users.views import PaymentCreateAPIView
 
 
 class PaymentTest(APITestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.factory = APIRequestFactory()
         self.user = User.objects.create(email="test_user@test.com", password="test_PASSWORD", is_active=True)
         self.course = Course.objects.create(
@@ -33,7 +33,7 @@ class PaymentTest(APITestCase):
             price=None,
         )
 
-    def test_create_payment_cash(self):
+    def test_create_payment_cash(self) -> None:
         view = PaymentCreateAPIView.as_view()
         request = self.factory.post(
             "/payments/create/",
@@ -70,7 +70,7 @@ class PaymentTest(APITestCase):
         self.assertEqual(response.data, [ErrorDetail(string="Данный курс бесплатный", code="invalid")])
 
     @patch.object(StripeAPIService, "create_transfer_and_return_data")
-    def test_create_payment_transfer(self, moch_create_stripe):
+    def test_create_payment_transfer(self, moch_create_stripe: Mock) -> None:
 
         moch_data_dict = {
             "link": "https://stripe.com/new",

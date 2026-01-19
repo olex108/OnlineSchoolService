@@ -1,4 +1,4 @@
-from typing import Any
+import logging
 
 from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
@@ -8,8 +8,10 @@ from rest_framework import generics
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from config.settings import STRIPE_API_KEY
 from courses.models import Course
@@ -20,6 +22,17 @@ from .serializers import PaymentSerializer, UserRegisterSerializer, UserRetrieve
 from .src.payment import PaymentServices
 from .src.transfer_api_service import StripeAPIService
 
+logger = logging.getLogger("users")
+payment_logger = logging.getLogger("payment")
+
+
+class LoginView(TokenObtainPairView):
+    permission_classes = [AllowAny]
+
+    def post(self, request: Request, *args: tuple, **kwargs: dict) -> Response:
+        logger.info(f"Method: {request.method} - url: {request.path} - User: {request.data['email']}")
+        return super().post(request, args, kwargs)
+
 
 class UserRegisterAPIView(generics.CreateAPIView):
     """
@@ -28,6 +41,10 @@ class UserRegisterAPIView(generics.CreateAPIView):
 
     serializer_class = UserRegisterSerializer
     permission_classes = [AllowAny]
+
+    def post(self, request: Request, *args: tuple, **kwargs: dict) -> Response:
+        logger.info(f"Method: {request.method} - url: {request.path} - Registration of user: {request.data['email']}")
+        return super().post(request, *args, **kwargs)
 
 
 @method_decorator(name="get", decorator=swagger_auto_schema(responses={200: UserRetrieveSerializer()}))
@@ -51,11 +68,19 @@ class UserUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
 
+    def put(self, request: Request, *args: tuple, **kwargs: dict) -> Response:
+        logger.info(f"Method: {request.method} - url: {request.path} - User: {request.data['email']}")
+        return super().put(request, *args, **kwargs)
+
 
 class UserDestroyAPIView(generics.DestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
+
+    def destroy(self, request: Request, *args: tuple, **kwargs: dict) -> Response:
+        logger.info(f"Method: {request.method} - url: {request.path} - User: {request.data['email']}")
+        return super().destroy(request, *args, **kwargs)
 
 
 @method_decorator(
@@ -81,7 +106,7 @@ class UserEmailVerificationAPIView(APIView):
 
     permission_classes = [AllowAny]
 
-    def get(self, request: Any, token: str) -> Response:
+    def get(self, request: Request, token: str) -> Response:
         try:
             user = User.objects.get(token=token)
             user.is_active = True
@@ -126,7 +151,7 @@ class PaymentCreateAPIView(generics.CreateAPIView):
     serializer_class = PaymentSerializer
     queryset = Payment.objects.all()
 
-    def perform_create(self, serializer) -> None:
+    def perform_create(self, serializer: PaymentSerializer) -> None:
         """
         Method for creating a new payment
         Call method PaymentServices.save_payment_obj for creating a new payment
@@ -135,18 +160,28 @@ class PaymentCreateAPIView(generics.CreateAPIView):
 
         saved_payment_obj, product_obj = PaymentServices.save_payment_obj(serializer, owner=self.request.user)
 
+        payment_logger.info(
+            f"Create payment - Product: {product_obj.pk} {product_obj.name} - {saved_payment_obj.payment_method}"
+        )
+
         if saved_payment_obj.payment_method == "TRANSFER":
-            transfer_service = StripeAPIService(api_key=STRIPE_API_KEY)
-            transfer_data = transfer_service.create_transfer_and_return_data(
-                product=product_obj, amount=saved_payment_obj.amount
-            )
-            Transfer.objects.create(
-                payment=Payment.objects.get(id=saved_payment_obj.id),
-                link=transfer_data.get("link"),
-                session_id=transfer_data.get("session_id"),
-                price_id=transfer_data.get("price_id"),
-                product_id=transfer_data.get("product_id"),
-            )
+            try:
+                transfer_service = StripeAPIService(api_key=STRIPE_API_KEY)
+                transfer_data = transfer_service.create_transfer_and_return_data(
+                    product=product_obj, amount=saved_payment_obj.amount
+                )
+                Transfer.objects.create(
+                    payment=Payment.objects.get(id=saved_payment_obj.id),
+                    link=transfer_data.get("link"),
+                    session_id=transfer_data.get("session_id"),
+                    price_id=transfer_data.get("price_id"),
+                    product_id=transfer_data.get("product_id"),
+                )
+
+                payment_logger.info(f"Create transfer - Transfer: {product_obj.pk} {product_obj.name}")
+
+            except Exception as e:
+                payment_logger.error(f"Create transfer error: {e} - Transfer: {product_obj.pk} {product_obj.name}")
 
 
 @method_decorator(
@@ -168,10 +203,9 @@ class SubscribeAPIView(APIView):
     Get post request with data of course id in dict
 
     {"course_id": course_id: int}
-
     """
 
-    def get(self, request: Any, pk: int) -> Response:
+    def get(self, request: Request, pk: int) -> Response:
         """
         Post request with data of course id in dict {"course_id": course_id: int}.
         return: Response with message of subscription in form {"message": message: str} if course is exist
@@ -189,8 +223,10 @@ class SubscribeAPIView(APIView):
                 message = "Подписка добавлена"
             subscription.subscription = not subscription.subscription
             subscription.save()
+            logger.info(f"Url: {request.path} - Subscription of user: {user.email} - course: {course.name}")
         except Subscription.DoesNotExist:
             Subscription.objects.create(user=user, course=course, subscription=True)
             message = "Подписка добавлена"
+            logger.info(f"Url: {request.path} - Subscription of user: {user.email} - course: {course.name}")
 
         return Response({"message": message})

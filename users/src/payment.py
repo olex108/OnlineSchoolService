@@ -7,7 +7,7 @@ from users.models import User
 class PaymentServices:
 
     @classmethod
-    def save_payment_obj(cls, serializer: serializers, owner: User) -> tuple[serializers, str]:
+    def save_payment_obj(cls, serializer: serializers, owner: User) -> tuple[serializers, Course | Lesson]:
         """
         Method get serializer and user object
         get name and price of payd object, save Payment object
