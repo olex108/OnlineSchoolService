@@ -1,27 +1,27 @@
-from gc import get_objects
-from http.client import responses
 from typing import Any
-from drf_yasg import openapi
 
 from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
-from pyexpat.errors import messages
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import ListAPIView, get_object_or_404
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from stripe import PaymentMethod
 
 from config.settings import STRIPE_API_KEY
-from .models import Payment, User, Subscription, Transfer
 from courses.models import Course
-from .permissions import IsOwner, IsModer
-from .serializers import (PaymentSerializer, UserRegisterSerializer, UserRetrieveSerializer, UserSerializer,
-                          SubscriptionSerializer)
 
-from drf_yasg.utils import swagger_auto_schema
+from .models import Payment, Subscription, Transfer, User
+from .permissions import IsModer, IsOwner
+from .serializers import (
+    PaymentSerializer,
+    UserRegisterSerializer,
+    UserRetrieveSerializer,
+    UserSerializer,
+)
 from .src.payment import PaymentServices
 from .src.transfer_api_service import StripeAPIService
 
@@ -35,7 +35,7 @@ class UserRegisterAPIView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 
-@method_decorator(name='get', decorator=swagger_auto_schema(responses={200: UserRetrieveSerializer()}))
+@method_decorator(name="get", decorator=swagger_auto_schema(responses={200: UserRetrieveSerializer()}))
 class UserRetrieveAPIView(generics.RetrieveAPIView):
     """
     Get user by id. With fields "email", "first_name", "phone", "country", "avatar" for any authenticated user
@@ -64,14 +64,18 @@ class UserDestroyAPIView(generics.DestroyAPIView):
 
 
 @method_decorator(
-    name='get',
-    decorator=swagger_auto_schema(responses={200: openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'status': openapi.Schema(type=openapi.TYPE_STRING, example="success"),
-                'message': openapi.Schema(type=openapi.TYPE_STRING, example="Верификация по email прошла успешно"),
-            }
-        )})
+    name="get",
+    decorator=swagger_auto_schema(
+        responses={
+            200: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "status": openapi.Schema(type=openapi.TYPE_STRING, example="success"),
+                    "message": openapi.Schema(type=openapi.TYPE_STRING, example="Верификация по email прошла успешно"),
+                },
+            )
+        }
+    ),
 )
 class UserEmailVerificationAPIView(APIView):
     """
@@ -134,14 +138,16 @@ class PaymentCreateAPIView(generics.CreateAPIView):
         If payment method of payment "TRANSFER" create Transfer object
         """
 
-        saved_payment_obj, product_name = PaymentServices.save_payment_obj(serializer, user=self.request.user)
+        saved_payment_obj, product_obj = PaymentServices.save_payment_obj(serializer, owner=self.request.user)
 
         if saved_payment_obj.payment_method == "TRANSFER":
             transfer_service = StripeAPIService(api_key=STRIPE_API_KEY)
-            transfer_data = transfer_service.create_transfer_and_return_data(product_name=product_name, amount=saved_payment_obj.amount)
+            transfer_data = transfer_service.create_transfer_and_return_data(
+                product=product_obj, amount=saved_payment_obj.amount
+            )
             Transfer.objects.create(
                 payment=Payment.objects.get(id=saved_payment_obj.id),
-                link= transfer_data.get("link"),
+                link=transfer_data.get("link"),
                 session_id=transfer_data.get("session_id"),
                 price_id=transfer_data.get("price_id"),
                 product_id=transfer_data.get("product_id"),
@@ -149,13 +155,17 @@ class PaymentCreateAPIView(generics.CreateAPIView):
 
 
 @method_decorator(
-    name='get',
-    decorator=swagger_auto_schema(responses={200: openapi.Schema(
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'message': openapi.Schema(type=openapi.TYPE_STRING, example="Подписка добавлена"),
-            }
-        )})
+    name="get",
+    decorator=swagger_auto_schema(
+        responses={
+            200: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "message": openapi.Schema(type=openapi.TYPE_STRING, example="Подписка добавлена"),
+                },
+            )
+        }
+    ),
 )
 class SubscribeAPIView(APIView):
     """

@@ -1,19 +1,13 @@
-from users.models import Payment, Transfer
-
-from users.models import User
-from courses.models import Course, Lesson
-
 from rest_framework import serializers
 
-from users.src.transfer_api_service import StripeAPIService
-from config.settings import STRIPE_API_KEY
+from courses.models import Course, Lesson
+from users.models import User
 
 
 class PaymentServices:
 
-
     @classmethod
-    def save_payment_obj(cls, serializer: serializers, user: User) -> tuple[serializers, str]:
+    def save_payment_obj(cls, serializer: serializers, owner: User) -> tuple[serializers, str]:
         """
         Method get serializer and user object
         get name and price of payd object, save Payment object
@@ -24,21 +18,21 @@ class PaymentServices:
 
         paid_course = serializer.validated_data.get("paid_course")
         paid_lesson = serializer.validated_data.get("paid_lesson")
+        print(paid_course, paid_lesson)
 
         try:
+            if not paid_course and not paid_lesson:
+                raise serializers.ValidationError("Заполните одно из полей 'paid_course' или 'paid_lesson'.")
             if paid_course:
-                product_name = paid_course.name
+                product_obj = paid_course
                 amount = paid_course.price
             else:
-                product_name = paid_lesson.name
+                product_obj = paid_lesson
                 amount = paid_lesson.price
             if not amount:
                 raise serializers.ValidationError("Данный курс бесплатный")
 
-        except Course.DoesNotExist or Course.DoesNotExist:
+        except Course.DoesNotExist or Lesson.DoesNotExist:
             raise serializers.ValidationError("Неверный номер курса")
 
-        return serializer.save(
-            amount=amount,
-            user=user
-        ), product_name
+        return serializer.save(amount=amount, owner=owner), product_obj

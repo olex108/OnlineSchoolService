@@ -1,6 +1,5 @@
 from rest_framework import generics, viewsets
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 
 from users.permissions import IsModer, IsOwner
 

@@ -114,6 +114,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+BASE_URL = os.getenv("BASE_URL")
+
 STATIC_URL = "static/"
 
 MEDIA_URL = "media/"

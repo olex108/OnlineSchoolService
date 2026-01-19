@@ -1,10 +1,9 @@
 from django.urls import path
+from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from . import views
 from .apps import UsersConfig
-from rest_framework.permissions import AllowAny
-
 from .views import SubscribeAPIView
 
 app_name = UsersConfig.name
