@@ -40,5 +40,14 @@ class CourseRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ["name", "preview", "description", "video_url", "owner", "price", "lessons_count", "lessons",
-                  "subscription"]
+        fields = [
+            "name",
+            "preview",
+            "description",
+            "video_url",
+            "owner",
+            "price",
+            "lessons_count",
+            "lessons",
+            "subscription",
+        ]

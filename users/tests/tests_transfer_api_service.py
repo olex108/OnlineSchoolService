@@ -1,14 +1,9 @@
 from unittest import TestCase
-
-from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
+from unittest.mock import patch
 
 from courses.models import Course
 from users.models import User
-
 from users.src.transfer_api_service import StripeAPIService
-
-import pytest
-from unittest.mock import MagicMock, patch
 
 
 class StripeAPIServiceTest(TestCase):
@@ -25,7 +20,7 @@ class StripeAPIServiceTest(TestCase):
             preview="",
             price=100.0,
             owner=self.user,
-            stripe_product_id=None
+            stripe_product_id=None,
         )
 
     @patch("stripe.Price.create")

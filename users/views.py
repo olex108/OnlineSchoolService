@@ -16,12 +16,7 @@ from courses.models import Course
 
 from .models import Payment, Subscription, Transfer, User
 from .permissions import IsModer, IsOwner
-from .serializers import (
-    PaymentSerializer,
-    UserRegisterSerializer,
-    UserRetrieveSerializer,
-    UserSerializer,
-)
+from .serializers import PaymentSerializer, UserRegisterSerializer, UserRetrieveSerializer, UserSerializer
 from .src.payment import PaymentServices
 from .src.transfer_api_service import StripeAPIService
 

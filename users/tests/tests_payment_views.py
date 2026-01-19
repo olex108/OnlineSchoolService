@@ -1,14 +1,13 @@
+from unittest.mock import patch
+
 from rest_framework import status
 from rest_framework.exceptions import ErrorDetail
 from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
 
 from courses.models import Course
 from users.models import User
-from users.views import PaymentCreateAPIView
-
-from unittest.mock import patch
-
 from users.src.transfer_api_service import StripeAPIService
+from users.views import PaymentCreateAPIView
 
 
 class PaymentTest(APITestCase):
@@ -68,7 +67,7 @@ class PaymentTest(APITestCase):
         response = view(request)
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data, [ErrorDetail(string='Данный курс бесплатный', code='invalid')])
+        self.assertEqual(response.data, [ErrorDetail(string="Данный курс бесплатный", code="invalid")])
 
     @patch.object(StripeAPIService, "create_transfer_and_return_data")
     def test_create_payment_transfer(self, moch_create_stripe):
@@ -77,7 +76,7 @@ class PaymentTest(APITestCase):
             "link": "https://stripe.com/new",
             "session_id": "sess_456",
             "price_id": "price_456",
-            "product_id": "prod_new_456"
+            "product_id": "prod_new_456",
         }
 
         moch_create_stripe.return_value = moch_data_dict
@@ -101,6 +100,3 @@ class PaymentTest(APITestCase):
         self.assertEqual(response.data["transfer"]["session_id"], moch_data_dict["session_id"])
         self.assertEqual(response.data["transfer"]["price_id"], moch_data_dict["price_id"])
         self.assertEqual(response.data["transfer"]["product_id"], moch_data_dict["product_id"])
-
-
-

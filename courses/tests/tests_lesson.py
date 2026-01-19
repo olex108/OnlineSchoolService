@@ -116,7 +116,8 @@ class LessonTest(APITestCase):
 
         self.assertEqual(update_response.status_code, status.HTTP_200_OK)
         self.assertEqual(update_response.data["name"], "Update Lesson")
-#
+
+    #
     def test_lesson_update_moderator(self) -> None:
         force_authenticate(self.update_request, user=self.moderator)
         update_response = self.update_view(self.update_request, pk=1)

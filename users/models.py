@@ -2,12 +2,11 @@ from datetime import datetime, timezone
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from rest_framework.serializers import ValidationError
 
 from config.settings import STRIPE_API_KEY
 from courses.models import Course, Lesson
 from users.src.transfer_api_service import StripeAPIService
-
-from rest_framework.serializers import ValidationError
 
 
 class User(AbstractUser):
@@ -63,8 +62,12 @@ class Payment(models.Model):
     owner = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     payment_date = models.DateTimeField(verbose_name="Дата оплаты", blank=True, null=True)
-    paid_course = models.ForeignKey(Course, verbose_name="Оплаченный курс", on_delete=models.CASCADE, null=True, blank=True)
-    paid_lesson = models.ForeignKey(Lesson, verbose_name="Оплаченный урок", on_delete=models.CASCADE, null=True, blank=True)
+    paid_course = models.ForeignKey(
+        Course, verbose_name="Оплаченный курс", on_delete=models.CASCADE, null=True, blank=True
+    )
+    paid_lesson = models.ForeignKey(
+        Lesson, verbose_name="Оплаченный урок", on_delete=models.CASCADE, null=True, blank=True
+    )
     amount = models.FloatField(verbose_name="Сумма оплаты")
     payment_method = models.CharField(max_length=8, choices=PAYMENT_METHOD_CHOICES, verbose_name="Способ оплаты")
     payment_status = models.CharField(
@@ -109,10 +112,10 @@ class Payment(models.Model):
         constraints = [
             models.CheckConstraint(
                 check=(
-                        models.Q(paid_course__isnull=False, paid_lesson__isnull=True) |
-                        models.Q(paid_course__isnull=True, paid_lesson__isnull=False)
+                    models.Q(paid_course__isnull=False, paid_lesson__isnull=True)
+                    | models.Q(paid_course__isnull=True, paid_lesson__isnull=False)
                 ),
-                name='only_one_product_type_check'
+                name="only_one_product_type_check",
             )
         ]
 
