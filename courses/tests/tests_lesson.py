@@ -3,8 +3,13 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
 
-from courses.views import (LessonCreateAPIView, LessonDestroyAPIView, LessonListAPIView, LessonRetrieveAPIView,
-                           LessonUpdateAPIView)
+from courses.views import (
+    LessonCreateAPIView,
+    LessonDestroyAPIView,
+    LessonListAPIView,
+    LessonRetrieveAPIView,
+    LessonUpdateAPIView,
+)
 from users.models import User
 
 
@@ -111,7 +116,7 @@ class LessonTest(APITestCase):
 
         self.assertEqual(update_response.status_code, status.HTTP_200_OK)
         self.assertEqual(update_response.data["name"], "Update Lesson")
-
+#
     def test_lesson_update_moderator(self) -> None:
         force_authenticate(self.update_request, user=self.moderator)
         update_response = self.update_view(self.update_request, pk=1)

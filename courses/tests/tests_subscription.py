@@ -1,9 +1,9 @@
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APIClient, APIRequestFactory, APITestCase, force_authenticate
+from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
 
 from courses.models import Course
-from courses.views import CourseViewSet, LessonListAPIView
+from courses.views import CourseViewSet
 from users.models import Subscription, User
 from users.views import SubscribeAPIView
 
