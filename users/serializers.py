@@ -1,10 +1,14 @@
+import logging
 import os
 import secrets
 
 from django.core.mail import send_mail
 from rest_framework import serializers
 
-from .models import Payment, User
+from .models import Payment, Transfer, User
+from .validators import PaymentValidator
+
+logger = logging.getLogger("users")
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -32,6 +36,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         """
 
         if validated_data["password1"] != validated_data["password2"]:
+            logger.warning("Passwords don't match")
             raise serializers.ValidationError("Пароль должен совпадать")
 
         user = User.objects.create(
@@ -61,17 +66,28 @@ class UserRegisterSerializer(serializers.ModelSerializer):
                     from_email=os.getenv("EMAIL_ADDRESS"),
                     recipient_list=[user.email],
                 )
+                logger.info(f"Sending email for verification Email: {user.email}")
 
             except Exception as e:
-                print(e)
+                logger.error(f"Sending email for verification Error: {e}")
 
         return user
 
 
+class TransferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transfer
+        fields = "__all__"
+
+
 class PaymentSerializer(serializers.ModelSerializer):
+    transfer = TransferSerializer(source="transfer_set.first", read_only=True)
+
     class Meta:
         model = Payment
         fields = "__all__"
+        read_only_fields = ["id", "owner", "created_date", "payment_date", "amount", "payment_status", "transfer"]
+        validators = [PaymentValidator(paid_course="paid_course", paid_lesson="paid_lesson")]
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -86,3 +102,7 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["email", "first_name", "last_name", "phone", "country", "avatar", "payment_history"]
+
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    pass

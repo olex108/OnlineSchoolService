@@ -1,0 +1,33 @@
+{"message": "Login view", "timestamp": "2026-01-19T20:04:46.590729Z", "level": "INFO"}
+{"message": "Login view", "timestamp": "2026-01-19T20:05:21.370622Z", "level": "INFO"}
+{"message": "Login view", "timestamp": "2026-01-19T20:29:47.631568Z", "level": "INFO"}
+{"message": "Login view", "timestamp": "2026-01-19T20:30:09.263167Z", "level": "INFO"}
+{"message": "", "timestamp": "2026-01-19T20:38:12.057228Z", "level": "INFO"}
+{"message": "", "timestamp": "2026-01-19T20:39:06.685805Z", "level": "INFO"}
+{"message": "", "timestamp": "2026-01-19T20:39:45.309822Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "timestamp": "2026-01-19T20:45:48.005774Z", "level": "INFO"}
+{"message": "\"POST /login/ HTTP/1.1\" 200 491", "request": "<socket.socket fd=652, family=2, type=1, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 54150)>", "server_time": "19/Jan/2026 23:45:52", "status_code": 200, "timestamp": "2026-01-19T20:45:52.947346Z", "level": "INFO"}
+{"message": "C:\\Users\\oleks\\PycharmProjects\\OnlineSchoolService\\users\\views.py changed, reloading.", "timestamp": "2026-01-19T20:46:41.330983Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "timestamp": "2026-01-19T20:46:41.868133Z", "level": "INFO"}
+{"message": "\"POST /login/ HTTP/1.1\" 200 491", "request": "<socket.socket fd=872, family=2, type=1, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 60975)>", "server_time": "19/Jan/2026 23:46:46", "status_code": 200, "timestamp": "2026-01-19T20:46:46.112751Z", "level": "INFO"}
+{"message": "C:\\Users\\oleks\\PycharmProjects\\OnlineSchoolService\\users\\views.py changed, reloading.", "timestamp": "2026-01-19T20:47:28.831930Z", "level": "INFO"}
+{"message": "Watching for file changes with StatReloader", "timestamp": "2026-01-19T20:47:29.379006Z", "level": "INFO"}
+{"message": "\"POST /login/ HTTP/1.1\" 200 491", "request": "<socket.socket fd=880, family=2, type=1, proto=0, laddr=('127.0.0.1', 8000), raddr=('127.0.0.1', 58749)>", "server_time": "19/Jan/2026 23:47:39", "status_code": 200, "timestamp": "2026-01-19T20:47:39.102844Z", "level": "INFO"}
+{"message": "C:\\Users\\oleks\\PycharmProjects\\OnlineSchoolService\\config\\settings.py changed, reloading.", "timestamp": "2026-01-19T20:49:54.838330Z", "level": "INFO"}
+{"message": "\u0412\u0445\u043e\u0434 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f", "timestamp": "2026-01-19T20:50:20.423259Z", "level": "INFO"}
+{"message": "login user user_1@test.com", "timestamp": "2026-01-19T20:52:04.640448Z", "level": "INFO"}
+{"message": "Login User: user_1@test.com", "timestamp": "2026-01-19T21:01:18.744753Z", "level": "INFO"}
+{"message": "Login User: user_1@test.com", "timestamp": "2026-01-19T21:03:44.883960Z", "level": "INFO"}
+{"message": "Login User: user_1@test.com", "timestamp": "2026-01-19T21:06:42.364989Z", "level": "INFO"}
+{"message": "Login User: user_1@test.com", "timestamp": "2026-01-19T21:08:11.829539Z", "level": "INFO"}
+{"message": "Login User: user_1@test.com", "timestamp": "2026-01-19T21:10:01.105998Z", "level": "INFO"}
+{"message": "Login User: user_1@test.com", "timestamp": "2026-01-19T21:10:56.668626Z", "level": "INFO"}
+{"message": "Login User: user_1@test.com", "timestamp": "2026-01-19T21:11:57.558463Z", "level": "INFO"}
+{"message": "Login User: user_1@test.com", "timestamp": "2026-01-19T21:12:51.130686Z", "level": "INFO"}
+{"message": "POST - /login/ - User: user_1@test.com", "timestamp": "2026-01-19T21:16:36.006825Z", "level": "INFO"}
+{"message": "Method: POST - url: /login/ - User: user_1@test.com", "timestamp": "2026-01-19T21:18:32.191516Z", "level": "INFO"}
+{"message": "Method: POST - url: /register/ - Registration of user: oleksiymosiychuk108@gmail.com", "timestamp": "2026-01-19T21:24:16.580781Z", "level": "INFO"}
+{"message": "Method: POST - url: /register/ - Registration of user: oleksiymosiychuk108@gmail.com", "timestamp": "2026-01-19T21:27:51.712760Z", "level": "INFO"}
+{"message": "Method: POST - url: /register/ - Registration of user: oleksiymosiychuk108@gmail.com", "timestamp": "2026-01-19T21:28:45.595120Z", "level": "INFO"}
+{"message": "Method: POST - url: /register/ - Registration of user: oleksiymosiychuk108@gmal.com", "timestamp": "2026-01-19T21:30:17.437192Z", "level": "INFO"}
+{"message": "Passwords don't match", "timestamp": "2026-01-19T21:30:17.478784Z", "level": "ERROR"}

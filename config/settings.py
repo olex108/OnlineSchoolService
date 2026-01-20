@@ -1,6 +1,8 @@
 from datetime import timedelta
 from pathlib import Path
 import os
+from .loggin_formatters import CustomJsonFormatter
+
 from dotenv import load_dotenv
 
 
@@ -21,11 +23,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
+    # docs
+    "drf_yasg",
+    # libraries
     "rest_framework",
-    'rest_framework_simplejwt',
-    'django_filters',
-
+    "rest_framework_simplejwt",
+    "django_filters",
+    # apps
     "courses",
     "users",
 ]
@@ -39,6 +43,53 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "main_formater": {
+            "format": "{asctime} - {levelname} - {module} - {message}",
+            "style": "{",
+        },
+        "json_formater": {
+            "()": CustomJsonFormatter,
+        },
+        "file_formater": {
+            "format": "{asctime} - {levelname} - {pathname} - {message}",
+            "style": "{"
+        },
+    },
+    "handlers": {
+        "console": {
+            # "level": "WARNING",
+            "class": "logging.StreamHandler",
+            "formatter": "main_formater",
+        },
+        "json_file": {
+            "class": "logging.FileHandler",
+            "formatter": "json_formater",
+            "filename": BASE_DIR / "log" / "main.json",
+        },
+        "log_file": {
+            "class": "logging.FileHandler",
+            "formatter": "file_formater",
+            "filename": BASE_DIR / "log" / "main.log",
+        }
+    },
+    "loggers": {
+        "users": {
+            "handlers": ["console", "json_file", "log_file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "payment": {
+            "handlers": ["console", "json_file", "log_file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
 
 ROOT_URLCONF = "config.urls"
 
@@ -59,7 +110,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-
 # Database
 DATABASES = {
     "default": {
@@ -71,7 +121,6 @@ DATABASES = {
         "PORT": os.getenv("PORT"),
     }
 }
-
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -112,6 +161,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+BASE_URL = os.getenv("BASE_URL")
+
 STATIC_URL = "static/"
 
 MEDIA_URL = "media/"
@@ -129,3 +180,6 @@ EMAIL_HOST_USER = os.getenv("EMAIL_ADDRESS")
 EMAIL_HOST_PASSWORD = os.getenv("APP_EMAIL_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+# Secret data
+STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
