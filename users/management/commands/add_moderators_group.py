@@ -1,8 +1,6 @@
-from django.contrib.auth.models import Group, Permission
-
-from django.core.management import BaseCommand
-
+from django.contrib.auth.models import Group
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.management import BaseCommand
 
 
 class Command(BaseCommand):

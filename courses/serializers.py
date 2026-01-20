@@ -10,7 +10,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ["name", "preview", "description", "video_url", "course"]
+        fields = ["name", "preview", "description", "video_url", "course", "price"]
         validators = [VideoUrlValidator(field="video_url")]
 
 
@@ -18,7 +18,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ["name", "preview", "description", "video_url"]
+        fields = ["name", "preview", "description", "video_url", "price"]
         validators = [VideoUrlValidator(field="video_url")]
 
 
@@ -40,4 +40,14 @@ class CourseRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = "__all__"
+        fields = [
+            "name",
+            "preview",
+            "description",
+            "video_url",
+            "owner",
+            "price",
+            "lessons_count",
+            "lessons",
+            "subscription",
+        ]
