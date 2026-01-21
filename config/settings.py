@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+    "django_celery_beat",
     # apps
     "courses",
     "users",
@@ -171,6 +172,24 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379'
+
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+CELERY_TIMEZONE = "UTC"
+
+CELERY_TASK_TRACK_STARTED = True
+
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BEAT_SCHEDULE = {
+    # 'task-name': {
+    #     'task': 'vehicle.tasks.test_task',  # Путь к задаче
+    #     'schedule': timedelta(minutes=10),  # Расписание выполнения задачи (например, каждые 10 минут)
+    # },
+}
 
 # Email message sanding
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
