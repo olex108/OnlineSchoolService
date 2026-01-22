@@ -11,6 +11,7 @@ class Course(models.Model):
     stripe_product_id = models.CharField(
         max_length=50, verbose_name="Значение product_id в Stripe", null=True, blank=True
     )
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления", null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -32,6 +33,7 @@ class Lesson(models.Model):
     stripe_product_id = models.CharField(
         max_length=50, verbose_name="Значение product_id в Stripe", null=True, blank=True
     )
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления", null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.name}"

@@ -3,13 +3,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIRequestFactory, APITestCase, force_authenticate
 
-from courses.views import (
-    LessonCreateAPIView,
-    LessonDestroyAPIView,
-    LessonListAPIView,
-    LessonRetrieveAPIView,
-    LessonUpdateAPIView,
-)
+from courses.views import (LessonCreateAPIView, LessonDestroyAPIView, LessonListAPIView, LessonRetrieveAPIView,
+                           LessonUpdateAPIView)
 from users.models import User
 
 

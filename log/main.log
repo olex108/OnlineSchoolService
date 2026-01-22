@@ -1,32 +1,4 @@
-2026-01-19 21:38:26,451 - INFO - views - views.py - login/
-2026-01-19 21:39:15,373 - INFO - views - views.py - <rest_framework.request.Request: POST '/login/'>
-2026-01-19 21:45:15,000 - INFO - views - 4908 15868 <rest_framework.request.Request: POST '/login/'>
-2026-01-19 21:45:40,553 - INFO - views - 4444 6124 <rest_framework.request.Request: POST '/login/'>
-2026-01-19 21:55:29,552 - INFO - views - <rest_framework.request.Request: POST '/login/'>, (), {}
-2026-01-19 21:56:29,396 - INFO - views - Login user - AnonymousUser
-2026-01-19 23:04:46,590 - INFO - views - Login view
-2026-01-19 23:05:21,369 - INFO - views - Login view
-2026-01-19 23:29:47,631 - INFO - views - Login view
-2026-01-19 23:30:09,262 - INFO - views - Login view
-2026-01-19 23:38:12,046 - INFO - views - 
-2026-01-19 23:39:06,671 - INFO - views - 
-2026-01-19 23:39:45,293 - INFO - views - 
-2026-01-19 23:45:47,984 - INFO - autoreload - Watching for file changes with StatReloader
-2026-01-19 23:45:52,900 - INFO - basehttp - "POST /login/ HTTP/1.1" 200 491
-2026-01-19 23:50:20,423 - INFO - views - ���� ������������
-2026-01-19 23:52:04,640 - INFO - views - login user user_1@test.com
-2026-01-20 00:01:18,744 - INFO - views - Login User: user_1@test.com
-2026-01-20 00:03:44,883 - INFO - views - Login User: user_1@test.com
-2026-01-20 00:06:42,364 - INFO - views - Login User: user_1@test.com
-2026-01-20 00:08:11,829 - INFO - views - Login User: user_1@test.com
-2026-01-20 00:10:01,105 - INFO - views - Login User: user_1@test.com
-2026-01-20 00:10:56,668 - INFO - views - Login User: user_1@test.com
-2026-01-20 00:11:57,558 - INFO - views - Login User: user_1@test.com
-2026-01-20 00:12:51,130 - INFO - views - Login User: user_1@test.com
-2026-01-20 00:16:36,006 - INFO - views - POST - /login/ - User: user_1@test.com
-2026-01-20 00:18:32,191 - INFO - \users\views.py - Method: POST - url: /login/ - User: user_1@test.com
-2026-01-20 00:24:16,580 - INFO - \users\views.py - Method: POST - url: /register/ - Registration of user: oleksiymosiychuk108@gmail.com
-2026-01-20 00:27:51,712 - INFO - \users\views.py - Method: POST - url: /register/ - Registration of user: oleksiymosiychuk108@gmail.com
-2026-01-20 00:28:45,594 - INFO - \users\views.py - Method: POST - url: /register/ - Registration of user: oleksiymosiychuk108@gmail.com
-2026-01-20 00:30:17,436 - INFO - \users\views.py - Method: POST - url: /register/ - Registration of user: oleksiymosiychuk108@gmal.com
-2026-01-20 00:30:17,478 - ERROR - \users\serializers.py - Passwords don't match
+2026-01-22 13:10:37,711|INFO|views|Method: POST - url: /login/ - User: user_9@test.com
+2026-01-22 14:57:58,565|INFO|views|Method: POST - url: /login/ - User: user_9@test.com
+2026-01-22 14:58:01,955|INFO|views|Method: POST - url: /login/ - User: oleksiymosiychuk108@gmail.com
+2026-01-22 16:22:01,384|INFO|views|Method: POST - url: /login/ - User: user_9@test.com

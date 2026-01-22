@@ -3,6 +3,7 @@ import os
 import secrets
 
 from django.core.mail import send_mail
+from django.utils import timezone
 from rest_framework import serializers
 
 from .models import Payment, Transfer, User
@@ -45,6 +46,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             country=validated_data["country"],
             avatar=validated_data["avatar"],
             is_active=False,
+            last_login=timezone.now(),
         )
         user.set_password(validated_data["password1"])
         token = secrets.token_hex(16)

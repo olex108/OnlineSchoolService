@@ -1,5 +1,6 @@
 import logging
 
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg import openapi
@@ -31,6 +32,9 @@ class LoginView(TokenObtainPairView):
 
     def post(self, request: Request, *args: tuple, **kwargs: dict) -> Response:
         logger.info(f"Method: {request.method} - url: {request.path} - User: {request.data['email']}")
+        user = User.objects.get(email=request.data["email"])
+        user.last_login = timezone.now()
+        user.save()
         return super().post(request, args, kwargs)
 
 
