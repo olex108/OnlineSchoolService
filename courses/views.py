@@ -1,14 +1,11 @@
-from rest_framework import generics, viewsets
+from rest_framework import generics, serializers, viewsets
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import serializers
 
-from users.models import Subscription
 from users.permissions import IsModer, IsOwner
 
 from .models import Course, Lesson
 from .paginators import CustomCoursesPaginator
 from .serializers import CourseRetrieveSerializer, CourseSerializer, LessonSerializer
-
 from .tasks import mailing_to_course_subscribers
 
 

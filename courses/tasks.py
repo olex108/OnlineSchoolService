@@ -1,14 +1,14 @@
+import logging
+
+from celery import shared_task
 from django.core.mail import send_mail
 
+from config.settings import BASE_URL, EMAIL_HOST_USER
 from courses.models import Course
-from users.models import Subscription
-import logging
-from celery import shared_task
-
-from config.settings import EMAIL_HOST_USER
 
 
 logger = logging.getLogger("celery_tasks")
+
 
 @shared_task
 def mailing_to_course_subscribers(course_pk: int) -> None:
@@ -25,7 +25,7 @@ def mailing_to_course_subscribers(course_pk: int) -> None:
         try:
             send_mail(
                 subject=f"Обновление курса {course.name}",
-                message=f"Курс {course.name} на который вы подписаны обновлен для просмотра изменений зайдите на страницу курса ",
+                message=f"Курс {course.name} на который вы подписаны обновлен. Для просмотра изменений зайдите на страницу курса '{BASE_URL}course/{course.id}/'",
                 from_email=EMAIL_HOST_USER,
                 recipient_list=[subscription.user.email],
             )

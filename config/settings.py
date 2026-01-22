@@ -5,6 +5,8 @@ from .loggin_formatters import CustomJsonFormatter
 
 from dotenv import load_dotenv
 
+from celery.schedules import crontab
+
 
 load_dotenv()
 
@@ -185,20 +187,18 @@ AUTH_USER_MODEL = "users.User"
 
 # Celery settings
 CELERY_BROKER_URL = 'redis://localhost:6379'
-
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 
 CELERY_TIMEZONE = TIME_ZONE
-
 CELERY_TASK_TRACK_STARTED = True
-
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {
-    # 'task-name': {
-    #     'task': 'vehicle.tasks.test_task',  # Путь к задаче
-    #     'schedule': timedelta(minutes=10),  # Расписание выполнения задачи (например, каждые 10 минут)
-    # },
+    "ban_inactive_users": {
+        'task': 'users.tasks.ban_inactive_users',  # Путь к задаче
+        'schedule': crontab(hour=3, minute=0),
+    },
 }
 
 # Email message sanding
