@@ -5,6 +5,8 @@ from .loggin_formatters import CustomJsonFormatter
 
 from dotenv import load_dotenv
 
+from celery.schedules import crontab
+
 
 load_dotenv()
 
@@ -29,6 +31,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+    # services
+    "django_celery_beat",
     # apps
     "courses",
     "users",
@@ -48,23 +52,22 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "main_formater": {
-            "format": "{asctime} - {levelname} - {module} - {message}",
+        "console_formater": {
+            "format": "{asctime}|{levelname}|{module}|{message}",
             "style": "{",
         },
         "json_formater": {
             "()": CustomJsonFormatter,
         },
         "file_formater": {
-            "format": "{asctime} - {levelname} - {pathname} - {message}",
+            "format": "{asctime}|{levelname}|{module}|{message}",
             "style": "{"
         },
     },
     "handlers": {
         "console": {
-            # "level": "WARNING",
             "class": "logging.StreamHandler",
-            "formatter": "main_formater",
+            "formatter": "console_formater",
         },
         "json_file": {
             "class": "logging.FileHandler",
@@ -75,11 +78,16 @@ LOGGING = {
             "class": "logging.FileHandler",
             "formatter": "file_formater",
             "filename": BASE_DIR / "log" / "main.log",
-        }
+        },
+        "celery_file": {
+            "class": "logging.FileHandler",
+            "formatter": "file_formater",
+            "filename": BASE_DIR / "log" / "celery.log",
+        },
     },
     "loggers": {
         "users": {
-            "handlers": ["console", "json_file", "log_file"],
+            "handlers": ["console", "log_file"],
             "level": "INFO",
             "propagate": True,
         },
@@ -88,6 +96,11 @@ LOGGING = {
             "level": "INFO",
             "propagate": True,
         },
+        "celery_tasks": {
+            "handlers": ["console", "celery_file"],
+            "level": "INFO",
+            "propagate": True,
+        }
     },
 }
 
@@ -171,6 +184,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
+
+# Celery settings
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+CELERY_BEAT_SCHEDULE = {
+    "ban_inactive_users": {
+        'task': 'users.tasks.ban_inactive_users',  # Путь к задаче
+        'schedule': crontab(hour=3, minute=0),
+    },
+}
 
 # Email message sanding
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
