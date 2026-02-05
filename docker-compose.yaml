@@ -53,6 +53,9 @@ services:
     build: .
     env_file:
       - .env
+    environment:
+      - HOST=db
+      - DATABASE_HOST=db
     command: celery -A config worker -l INFO
     depends_on:
       db:
@@ -66,6 +69,9 @@ services:
     build: .
     env_file:
       - .env
+    environment:
+      - HOST=db
+      - DATABASE_HOST=db
     command: celery -A config beat -l INFO
     depends_on:
       db:
