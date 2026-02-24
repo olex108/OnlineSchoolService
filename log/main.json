@@ -1,0 +1,3 @@
+{"message": "Create payment - Product: 1 test_course - CASH", "timestamp": "2026-02-24T09:31:12.665605Z", "level": "INFO"}
+{"message": "Create payment - Product: 1 test_course - TRANSFER", "timestamp": "2026-02-24T09:31:12.680739Z", "level": "INFO"}
+{"message": "Create transfer - Transfer: 1 test_course", "timestamp": "2026-02-24T09:31:12.684130Z", "level": "INFO"}

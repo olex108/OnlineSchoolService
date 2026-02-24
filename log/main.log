@@ -2,3 +2,7 @@
 2026-01-22 14:57:58,565|INFO|views|Method: POST - url: /login/ - User: user_9@test.com
 2026-01-22 14:58:01,955|INFO|views|Method: POST - url: /login/ - User: oleksiymosiychuk108@gmail.com
 2026-01-22 16:22:01,384|INFO|views|Method: POST - url: /login/ - User: user_9@test.com
+2026-02-24 12:31:12,614|INFO|views|Url: /subscribe/3/ - Subscription of user: test_user_1@test.com - course: Test Course
+2026-02-24 12:31:12,665|INFO|views|Create payment - Product: 1 test_course - CASH
+2026-02-24 12:31:12,680|INFO|views|Create payment - Product: 1 test_course - TRANSFER
+2026-02-24 12:31:12,684|INFO|views|Create transfer - Transfer: 1 test_course
