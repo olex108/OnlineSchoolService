@@ -6,3 +6,7 @@
 2026-02-24 12:31:12,665|INFO|views|Create payment - Product: 1 test_course - CASH
 2026-02-24 12:31:12,680|INFO|views|Create payment - Product: 1 test_course - TRANSFER
 2026-02-24 12:31:12,684|INFO|views|Create transfer - Transfer: 1 test_course
+2026-02-24 16:18:55,260|INFO|views|Url: /subscribe/3/ - Subscription of user: test_user_1@test.com - course: Test Course
+2026-02-24 16:18:55,309|INFO|views|Create payment - Product: 1 test_course - CASH
+2026-02-24 16:18:55,322|INFO|views|Create payment - Product: 1 test_course - TRANSFER
+2026-02-24 16:18:55,325|INFO|views|Create transfer - Transfer: 1 test_course
