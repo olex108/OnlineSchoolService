@@ -34,5 +34,9 @@ COPY . .
 # Открываем порт 8000 для взаимодействия с приложением
 EXPOSE 8000
 
+RUN SECRET_KEY=setup_only_key \
+    DATABASE_URL=sqlite:///:memory: \
+    python manage.py collectstatic --noinput
+
 # Определяем команду для запуска приложения
 CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
