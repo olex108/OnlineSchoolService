@@ -103,7 +103,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd ~/OnlineSchoolService
-            docker compose pull web celery celery_beat
-            docker compose up -d
-            docker image prune -f
+            sudo docker compose pull web celery celery_beat
+            sudo docker compose up -d
+            sudo docker image prune -f
           EOF
