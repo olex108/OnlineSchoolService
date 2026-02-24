@@ -33,7 +33,7 @@ COPY . .
 
 # Создаем директорию для медиафайлов
 RUN mkdir -p /app/media /app/staticfiles && \
-    python manage.py collectstatic --noinput
+    SECRET_KEY=build-placeholder python manage.py collectstatic --noinput
 
 # Открываем порт 8000 для взаимодействия с приложением
 EXPOSE 8000
