@@ -13,11 +13,25 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
     depends_on:
       db:
         condition: service_healthy
       redis:
         condition: service_started
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    depends_on:
+      - web
 
   db:
     image: postgres:17.7-alpine
@@ -83,4 +97,6 @@ services:
 
 volumes:
   postgres_data:
+  static_volume:
+  media_volume:
   redis_data:

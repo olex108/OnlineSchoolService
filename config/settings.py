@@ -196,7 +196,7 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BEAT_SCHEDULE = {
     "ban_inactive_users": {
-        'task': 'users.tasks.ban_inactive_users',  # Путь к задаче
+        'task': 'users.tasks.ban_inactive_users',
         'schedule': crontab(hour=3, minute=0),
     },
 }
