@@ -7,11 +7,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NAME: test_db
-      USER: test_user
-      PASSWORD: test_pass
-      HOST: localhost
-      PORT: 5432
+      DB_NAME: test_db
+      DB_USER: test_user
+      DB_PASSWORD: test_pass
+      DB_HOST: localhost
+      DB_PORT: 5432
 
       SECRET_KEY: test-secret
       DEBUG: "True"
