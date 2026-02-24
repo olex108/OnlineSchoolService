@@ -31,13 +31,6 @@ RUN poetry install --no-root --no-interaction --no-ansi
 # Копируем остальные файлы проекта в контейнер
 COPY . .
 
-# Создаем директорию для медиафайлов
-RUN mkdir -p /app/media /app/staticfiles && \
-    SECRET_KEY=build-placeholder-key \
-    DATABASE_URL=sqlite:///:memory: \
-    DJANGO_SETTINGS_MODULE=config.settings \
-    python manage.py collectstatic --noinput
-
 # Открываем порт 8000 для взаимодействия с приложением
 EXPOSE 8000
 
