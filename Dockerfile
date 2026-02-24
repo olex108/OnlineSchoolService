@@ -32,7 +32,7 @@ RUN poetry install --no-root --no-interaction --no-ansi
 COPY . .
 
 # Создаем директорию для медиафайлов
-RUN RUN mkdir -p /app/media /app/staticfiles && \
+RUN mkdir -p /app/media /app/staticfiles && \
     SECRET_KEY=build-placeholder-key \
     DATABASE_URL=sqlite:///:memory: \
     DJANGO_SETTINGS_MODULE=config.settings \
