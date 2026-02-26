@@ -1,13 +1,20 @@
 # Указываем базовый образ
 FROM python:3.13-slim
 
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    DEBUG=True \
+    POETRY_CONFIG_VIRTUALENVS_CREATE=false
+
 # Устанавливаем рабочую директорию в контейнере
 WORKDIR /app
 
 # Устанавливаем зависимости системы
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
+    libc-dev \
     libpq-dev \
+    netcat-openbsd \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -24,14 +31,12 @@ RUN poetry install --no-root --no-interaction --no-ansi
 # Копируем остальные файлы проекта в контейнер
 COPY . .
 
-# Определяем переменные окружения
-ENV DEBUG=True
-
-# Создаем директорию для медиафайлов
-RUN mkdir -p /app/media
-
 # Открываем порт 8000 для взаимодействия с приложением
 EXPOSE 8000
 
+RUN SECRET_KEY=setup_only_key \
+    DATABASE_URL=sqlite:///:memory: \
+    python manage.py collectstatic --noinput
+
 # Определяем команду для запуска приложения
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
