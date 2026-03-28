@@ -3,7 +3,30 @@ name: Django CI/CD
 on: [push, pull_request]
 
 jobs:
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install dependencies
+        run: poetry install --no-root
+
+      - name: Run flake8
+        run: poetry run flake8 .
+
   test:
+
+    needs: lint
     runs-on: ubuntu-latest
 
     env:
@@ -86,8 +109,6 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/online_school_service:latest
             ${{ secrets.DOCKER_HUB_USERNAME }}/online_school_service:${{ github.sha }}
-
-
 
   deploy:
     runs-on: ubuntu-latest

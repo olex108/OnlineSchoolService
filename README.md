@@ -1,5 +1,8 @@
 # OnlineSchoolService
 
+## Deploy
+Project deployed on: http://89.169.172.17
+
 Template for courses store.
 A Django REST Framework project integrated with PostgreSQL, Redis, and Celery, fully containerized using Docker.
 
@@ -66,6 +69,7 @@ Copy the nginx/ folder from the repository to ~/OnlineSchoolService/nginx/ on yo
 
 2. GitHub Actions will automatically:
 
+- Run linter flake8.
 - Run the test suite.
 - Build the Docker image and push it to Docker Hub.
 - Connect to your server via SSH, pull the new image, and restart the containers.
