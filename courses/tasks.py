@@ -25,7 +25,10 @@ def mailing_to_course_subscribers(course_pk: int) -> None:
         try:
             send_mail(
                 subject=f"Обновление курса {course.name}",
-                message=f"Курс {course.name} на который вы подписаны обновлен. Для просмотра изменений зайдите на страницу курса '{BASE_URL}course/{course.id}/'",
+                message=f"""
+                    Курс {course.name} на который вы подписаны обновлен.
+                    Для просмотра изменений зайдите на страницу курса '{BASE_URL}course/{course.id}/'
+                """,
                 from_email=EMAIL_HOST_USER,
                 recipient_list=[subscription.user.email],
             )

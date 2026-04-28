@@ -9,6 +9,7 @@ from rest_framework import serializers
 from .models import Payment, Transfer, User
 from .validators import PaymentValidator
 
+
 logger = logging.getLogger("users")
 
 
@@ -62,8 +63,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             try:
                 send_mail(
                     subject="Добро пожаловать в нашу онлайн школу",
-                    message=f"""Спасибо что зарегистрировались в нашем сервисе! 
-                    Перейдите по ссылке для подтверждения почты {url}.
+                    message=f"""
+                        Спасибо что зарегистрировались в нашем сервисе!
+                        Перейдите по ссылке для подтверждения почты {url}.
                     """,
                     from_email=os.getenv("EMAIL_ADDRESS"),
                     recipient_list=[user.email],
